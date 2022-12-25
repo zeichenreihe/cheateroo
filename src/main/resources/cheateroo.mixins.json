@@ -1,0 +1,26 @@
+{
+	"required": true,
+	"minVersion": "0.8.5",
+	"package": "local.pixy.cheateroo.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"client": [
+		"AbstractClientPlayerEntityMixin",
+		"BeaconBlockMixin",
+		"CameraMixin",
+		"DebugHudMixin",
+		"EntityMixin",
+		"GameRendererMixin",
+		"InGameHudMixin",
+		"MinecraftClientMixin",
+		"TitleScreenMixin",
+		"VillagerEntityRendererMixin",
+		"render.BufferBuilderMixin",
+		"render.BufferRendererMixin"
+	],
+	"injectors": {
+		"defaultsRequire": 1
+	},
+	"mixins": [
+		"VillagerEntityAccessor"
+	]
+}
