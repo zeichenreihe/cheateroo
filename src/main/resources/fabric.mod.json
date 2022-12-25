@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "cheateroo",
+	"version": "0.0.0-dev",
+	"name": "Cheateroo",
+	"description": "A mod like tweakeroo, but with other, more cheaty features",
+	"authors": [
+		"Zeichenreihe",
+		"pixy"
+	],
+	"contact": {
+		"sources": "https://github.com/johannes-schmatz/TEST"
+	},
+	"license": "GPL-2.0",
+	"icon": "assets/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"local.pixy.cheateroo.Cheateroo"
+		],
+		"modmenu": [
+			"local.pixy.cheateroo.compat.modmenu.ModMenuImpl"
+		]
+	},
+	"mixins": [
+		"cheateroo.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.13.3",
+		"minecraft": "1.12.2",
+		"malilib": ">=0.52.0"
+	}
+}

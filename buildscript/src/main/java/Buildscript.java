@@ -6,6 +6,7 @@ import io.github.coolcrabs.brachyura.decompiler.fernflower.FernflowerDecompiler;
 import io.github.coolcrabs.brachyura.dependency.JavaJarDependency;
 import io.github.coolcrabs.brachyura.fabric.*;
 import io.github.coolcrabs.brachyura.fabric.FabricContext.ModDependencyCollector;
+import io.github.coolcrabs.brachyura.ide.IdeModule;
 import io.github.coolcrabs.brachyura.mappings.Namespaces;
 import io.github.coolcrabs.brachyura.mappings.tinyremapper.MetaInfFixer;
 import io.github.coolcrabs.brachyura.mappings.tinyremapper.RemapperProcessor;
@@ -51,12 +52,12 @@ public class Buildscript extends SimpleFabricProject {
 
 	@Override
 	public MappingTree createMappings() {
-		return Yarn.ofMaven("https://maven.legacyfabric.net", FabricMaven.yarn(Versions.LEGACY_YARN)).tree;
+		return Versions.LEGACY_YARN.ofMaven(Yarn::ofMaven).tree;
 	}
 
 	@Override
 	public FabricLoader getLoader() {
-		return new FabricLoader(FabricMaven.URL, FabricMaven.loader(Versions.FABRIC_LOADER));
+		return Versions.FABRIC_LOADER.ofMaven(FabricLoader::new);
 	}
 
 	@Override
@@ -74,14 +75,7 @@ public class Buildscript extends SimpleFabricProject {
 	public BrachyuraDecompiler decompiler() {
 		// Uses QuiltFlower instead of CFR
 		return new FernflowerDecompiler(
-				Maven.getMavenJarDep(
-						"https://maven.quiltmc.org/repository/release",
-						new MavenId(
-								"org.quiltmc",
-								"quiltflower",
-								Versions.QUILT_FLOWER
-						)
-				)
+				Versions.QUILT_FLOWER.ofMaven(Maven::getMavenJarDep)
 		);
 	}
 
@@ -89,17 +83,10 @@ public class Buildscript extends SimpleFabricProject {
 		@Override
 		protected MappingTree createIntermediary() {
 			// use legacy fabric intermediary
-			return Intermediary.ofMaven(
-					"https://maven.legacyfabric.net",
-					new MavenId(
-							"net.fabricmc",
-							"intermediary",
-							Versions.MINECRAFT
-					)
-			).tree;
+			return Versions.LEGACY_INTERMEDIARY.ofMaven(Intermediary::ofMaven).tree;
 		}
 
-		@Override
+		/*@Override
 		public ProcessorChain modRemapChainOverrideOnlyIfYouOverrideRemappedModsRootPathAndLogicVersion(TrWrapper trw, List<Path> cp, Map<ProcessingSource, MavenId> c) {
 			//return new CustomProcessorChain(
 			return new ProcessorChain(
@@ -107,12 +94,12 @@ public class Buildscript extends SimpleFabricProject {
 					new MetaInfFixer(trw),
 					FabricContext.JijRemover.INSTANCE,
 					new AccessWidenerRemapper(mappings.get(), mappings.get().getNamespaceId(Namespaces.NAMED), AccessWidenerRemapper.FabricAwCollector.INSTANCE),
-					//new FabricContext.FmjGenerator(c)
-					new CustomFmjGenerator(c)
+					new FabricContext.FmjGenerator(c)
+					//new CustomFmjGenerator(c)
 			);
-		}
+		}*/
 	}
-
+/*
 	public static class CustomFmjGenerator extends FabricContext.FmjGenerator {
 		public Map<ProcessingSource, MavenId> mapRef;
 		public CustomFmjGenerator(Map<ProcessingSource, MavenId> map) {
@@ -151,9 +138,9 @@ public class Buildscript extends SimpleFabricProject {
 				}
 			}
 		}
-	}
-/*
-	@Override
+	}*/
+
+	/*@Override
 	public IdeModule[] getIdeModules() {
 		IdeModule module = super.module.get().ideModule();
 		List<JavaJarDependency> deps = module.dependencies.get();
@@ -215,6 +202,9 @@ public class Buildscript extends SimpleFabricProject {
 				r.add("-Dlog4j.configurationFile=" + writeLog4jXml());
 				r.add("-Dlog4j2.formatMsgNoLookups=true");
 				r.add("-Dfabric.log.disableAnsi=false");
+
+				// TODO: figure out how to generate this
+				r.add("-javaagent:/home/zeichenreihe/.brachyura/cache/maven/CD2BC0B41A25DBA43374D732CE21FBA15B511735AE1464E9AB19B28312C55B17/net/fabricmc/sponge-mixin/0.11.2+mixin.0.8.5/sponge-mixin-0.11.2+mixin.0.8.5.jar");
 				if (client) {
 					String natives = context.extractedNatives.get().stream().map(Path::toString).collect(Collectors.joining(File.pathSeparator));
 					r.add("-Djava.library.path=" + natives);
@@ -237,8 +227,8 @@ public class Buildscript extends SimpleFabricProject {
 	}
 
 	public void buildRun(){
-		super.build();
-		super.runTask("runMinecraftClient");
+		build();
+		runTask("runMinecraftClient");
 	}
 
 	public static final SimpleDateFormat DEV_VERSION_FORMAT = new SimpleDateFormat(".yyyyMMdd.HHmmss");
@@ -251,7 +241,7 @@ public class Buildscript extends SimpleFabricProject {
 		// append the build date when it's the dev version
 		if(version.endsWith("-dev")){
 			Objects.requireNonNull(buildDate, "build date not set");
-			version += DEV_VERSION_FORMAT.format(buildDate);
+			//version += DEV_VERSION_FORMAT.format(buildDate);
 		}
 
 		return version;

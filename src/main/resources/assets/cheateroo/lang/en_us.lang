@@ -1,0 +1,22 @@
+cheateroo.config.tab.generic=Generic
+cheateroo.config.tab.cheats=Cheats
+
+#cheateroo.feature_toggle.name.reducedbeaconrendering=BAR
+#cheateroo.feature_toggle.comment.reducedbeaconrendering=COMMENT
+
+cheateroo.config.name.barbarbar=BARBARBARBARBAR
+cheateroo.config.comment.barbarbar=BARBARBARBARBAR Comment
+
+cheateroo.title.screen.configs=Cheateroo Configs %s
+
+cheateroo.feature_toggle.name.reducedBeaconRendering=Reduced Beacon Rendering
+cheateroo.feature_toggle.comment.reducedBeaconRendering=Removes the rendering of the inner sides of a Beacon.
+
+cheateroo.feature_toggle.name.renderSaturationBar=Render Saturation Bar
+cheateroo.feature_toggle.comment.renderSaturationBar=Renders an addition Saturation Bar above the "air". Uses inverted Food icons.
+
+cheateroo.feature_toggle.name.renderSaturationBarText=Render Saturation Bar Text
+cheateroo.feature_toggle.comment.renderSaturationBarText=
+
+cheateroo.feature_toggle.name.renderSaturationBarRemoveWhenZero=Render Saturation Bar Remove When Zero
+cheateroo.feature_toggle.comment.renderSaturationBarRemoveWhenZero=
